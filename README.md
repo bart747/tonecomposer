@@ -2,7 +2,7 @@
 
 Learn how to generate rich, custom sounds by combining basic sine waves. Just with Python and Numpy/SciPy (and SoundDevice for saving audio files).
 
-Treat it as a starting template or an example. The [tone_example.py](./tone_example.py) file already has an exemplary voice ready to be modified or used as a [WAV file](./example.wav) 
+Treat it as a starting template or an example. The [tone_example.py](./tone_example.py) file already has an exemplary voice ready to be modified or used as a [WAV file](./example.wav).
 
 Sine waves here are NumPy arrays that can be modified in various ways.
 
