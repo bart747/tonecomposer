@@ -9,7 +9,6 @@ class TestEffects(unittest.TestCase):
         wave = np.ones(100)
         reverbed_wave = reverb(wave, 0.5, 0.5)
         self.assertGreater(len(reverbed_wave), len(wave))
-        self.assertEqual(reverbed_wave.dtype, np.int16)
         self.assertTrue(np.any(reverbed_wave))
 
     def test_delay(self):

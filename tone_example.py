@@ -1,11 +1,12 @@
-import effects
-import filters
 import numpy as np
 import sounddevice as sd
+from scipy.io.wavfile import write
+
+import effects
+import filters
 from make_sine import make_sine
 from normalize import normalize
 from normalize_for_wav import normalize_for_wav
-from scipy.io.wavfile import write
 
 sample_rate = 44100  # Samples per second
 duration = 2  # Seconds
@@ -38,7 +39,7 @@ sound_3 = effects.reverb(sound_3b, 1.5, 3)
 sound_L = normalize(sound_1 + 0.2 * sound_2 + 0.05 * sound_3)
 sound_R = normalize(sound_1 + 0.1 * sound_2 + 0.1 * sound_3)
 
-sound_final = np.column_stack((sound_L, sound_R)).astype(np.float32)
+sound_final = np.column_stack((sound_L, sound_R))
 
 if __name__ == "__main__":
     sd.play(sound_final, sample_rate)

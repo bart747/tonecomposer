@@ -1,9 +1,10 @@
 import unittest
+
 import numpy as np
-from filters import fade_in, fade_out, exponential_decay
+from filters import exponential_decay, fade_in, fade_out
+
 
 class TestFilters(unittest.TestCase):
-
     def test_fade_in(self):
         wave = np.ones(100)
         faded_wave = fade_in(wave, 50)
@@ -22,5 +23,6 @@ class TestFilters(unittest.TestCase):
         decayed_wave = exponential_decay(wave, time_axis, 0.1)
         self.assertLess(decayed_wave[50], decayed_wave[0])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

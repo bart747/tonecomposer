@@ -9,16 +9,13 @@ def reverb(wave, decay_time, tail_length):
     # '* 2 - 1' shiftes the rangefrom '0.0 to 0.1' into '-1.0 to 1.0'
     random_impulse_response = (
         rng.standard_normal(int(sample_rate * tail_length)) * 2 - 1
-    )
+    ).astype(np.float32)
+
     # exponential decay
     random_impulse_response *= np.exp(
         -decay_time * np.arange(len(random_impulse_response)) / sample_rate
     )
     reverbed_signal = convolve(wave, random_impulse_response, mode="full")
-
-    # Normalize the output to 16-bit integer range to prevent clipping
-    reverbed_signal *= np.iinfo(np.int16).max / np.max(np.abs(reverbed_signal))
-    reverbed_signal = reverbed_signal.astype(np.int16)
 
     return reverbed_signal
 

@@ -2,7 +2,7 @@ import numpy as np
 
 
 def fade_in(wave, nsamples):
-    new_wave = wave
+    new_wave = wave.astype(np.float32)
     r = 0
     for i in range(nsamples):
         r += 1 / nsamples
@@ -21,4 +21,5 @@ def fade_out(wave, nsamples):
 
 
 def exponential_decay(wave, time_axis, ratio):
-    return wave * np.exp(-time_axis * ratio)
+    new_wave = (wave * np.exp(-time_axis * ratio)).astype(np.float32)
+    return new_wave
