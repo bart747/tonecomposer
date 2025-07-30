@@ -4,6 +4,7 @@ import numpy as np
 import sounddevice as sd
 from make_sine import make_sine
 from normalize import normalize
+from normalize_for_wav import normalize_for_wav
 from scipy.io.wavfile import write
 
 sample_rate = 44100  # Samples per second
@@ -41,8 +42,4 @@ sound_final = np.column_stack((sound_L, sound_R)).astype(np.float32)
 if __name__ == "__main__":
     sd.play(sound_final, sample_rate)
     sd.wait()
-
-    # Sine wave values are floating-point numbers between -1.0 and 1.0,
-    # but 16-bit WAV files expect integers in the range -32768 to +32767.
-    sound_wav = (sound_final * 32767).astype(np.int16)
-    write("example.wav", sample_rate, sound_wav)
+    write("example.wav", sample_rate, normalize_for_wav(sound_final))
