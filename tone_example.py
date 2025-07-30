@@ -33,7 +33,8 @@ sound_3b = effects.delay(sound_3a, 2, 2, 0.7)
 sound_3 = effects.reverb(sound_3b, 1.5, 3)
 
 # By simple multiplication we can weight amplitudes ('volumes') of the waves.
-# Normalization is needed to stay in the [-1, 1] range.
+# 'normalize' is needed to stay in the [-1, 1] range.
+# After the transformations above they are already not in the range.
 sound_L = normalize(sound_1 + 0.2 * sound_2 + 0.05 * sound_3)
 sound_R = normalize(sound_1 + 0.1 * sound_2 + 0.1 * sound_3)
 
@@ -42,4 +43,7 @@ sound_final = np.column_stack((sound_L, sound_R)).astype(np.float32)
 if __name__ == "__main__":
     sd.play(sound_final, sample_rate)
     sd.wait()
+
+    # Sine wave values are floating-point numbers between -1.0 and 1.0,
+    # but 16-bit WAV files expect integers in the range -32768 to +32767.
     write("example.wav", sample_rate, normalize_for_wav(sound_final))

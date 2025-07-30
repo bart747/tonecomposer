@@ -1,11 +1,10 @@
 import numpy as np
-from normalize import normalize
 from scipy.signal import convolve
 
 rng = np.random.default_rng()
 
 
-def reverb(signal, decay_time, tail_length):
+def reverb(wave, decay_time, tail_length):
     sample_rate = 44100
     # '* 2 - 1' shiftes the rangefrom '0.0 to 0.1' into '-1.0 to 1.0'
     random_impulse_response = (
@@ -15,23 +14,23 @@ def reverb(signal, decay_time, tail_length):
     random_impulse_response *= np.exp(
         -decay_time * np.arange(len(random_impulse_response)) / sample_rate
     )
-    reverbed_signal = convolve(signal, random_impulse_response, mode="full")
+    reverbed_signal = convolve(wave, random_impulse_response, mode="full")
 
     # Normalize the output to 16-bit integer range to prevent clipping
     reverbed_signal *= np.iinfo(np.int16).max / np.max(np.abs(reverbed_signal))
     reverbed_signal = reverbed_signal.astype(np.int16)
 
-    return normalize(reverbed_signal)
+    return reverbed_signal
 
 
-def delay(signal, delay_time, wet_gain, mix):
+def delay(wave, delay_time, wet_gain, mix):
     sample_rate = 44100
     # Convert delay time in seconds to number of samples
     delay_samples = int(delay_time * sample_rate)
 
     # delay needs space on the end to be heard
     padding = np.zeros(int(sample_rate * 1.3))  # 2 seconds of silence
-    padded_signal = np.concatenate([signal, padding]).astype(np.float32)
+    padded_signal = np.concatenate([wave, padding]).astype(np.float32)
 
     wet_signal = np.zeros_like(padded_signal)
 
@@ -48,4 +47,4 @@ def delay(signal, delay_time, wet_gain, mix):
 
     output_signal = (1 - mix) * padded_signal + mix * wet_signal
 
-    return normalize(output_signal)
+    return output_signal
