@@ -22,24 +22,27 @@ sine_wave_3 = make_sine("E5", amplitude, t)
 
 # Let's add some effects and filters.
 sound_1a = filters.fade_in(filters.exponential_decay(sine_wave_1, t, 10), 300)
-sound_1b = effects.delay(sound_1a, 2, 2, 0.7)
-sound_1 = effects.reverb(sound_1b, 1, 3)
+sound_1b = effects.delay(sound_1a, 0.2, 1, 2, 0.3)
+sound_1 = effects.reverb(sound_1b, 2, 2)
 
 sound_2a = filters.fade_in(filters.exponential_decay(sine_wave_2, t, 10), 500)
-sound_2b = effects.delay(sound_2a, 0.5, 0.6, 0.5)
-sound_2 = effects.reverb(sound_2b, 1.2, 3)
+sound_2b = effects.delay(sound_2a, 0.1, 1, 2, 0.2)
+sound_2 = effects.reverb(sound_2b, 1, 2)
 
 sound_3a = filters.fade_in(filters.exponential_decay(sine_wave_3, t, 10), 900)
-sound_3b = effects.delay(sound_3a, 2, 2, 0.7)
-sound_3 = effects.reverb(sound_3b, 1.5, 3)
+sound_3b = effects.delay(sound_3a, 0.2, 1, 1, 0.3)
+sound_3c = effects.delay(sound_3b, 0.5, 1, 1, 0.1)
+sound_3 = effects.reverb(sound_3c, 2, 2)
 
 # By simple multiplication we can weight amplitudes ('volumes') of the waves.
-# 'normalize' is needed to stay in the [-1, 1] range.
-# After the transformations above they are already not in the range.
-sound_L = normalize(sound_1 + 0.2 * sound_2 + 0.05 * sound_3)
-sound_R = normalize(sound_1 + 0.1 * sound_2 + 0.1 * sound_3)
+sound_L = sound_1 + 0.2 * sound_2 + 0.05 * sound_3
+sound_R = sound_1 + 0.1 * sound_2 + 0.1 * sound_3
 
-sound_final = np.column_stack((sound_L, sound_R))
+sound_LR = np.column_stack((sound_L, sound_R))
+
+# 'normalize' is needed to stay in the [-1, 1] range.
+# After all the transformations above the signals are already not in the range.
+sound_final = normalize(sound_LR)
 
 if __name__ == "__main__":
     sd.play(sound_final, sample_rate)
