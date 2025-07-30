@@ -16,27 +16,30 @@ amplitude = 0.5
 t = np.linspace(0, duration, int(sample_rate * duration))
 
 # The exemplary sound will be combination of 3 different waves.
-sine_wave_1 = make_sine("E1", amplitude, t)
-sine_wave_2 = make_sine("E3", amplitude, t)
-sine_wave_3 = make_sine("E5", amplitude, t)
+sine_wave_1 = make_sine("A3", amplitude, t)
+sine_wave_2 = make_sine("E4", amplitude, t)
+sine_wave_3 = make_sine("A4", amplitude, t)
 
 # Let's add some effects and filters.
+# Notice that sum of tails (from effects) for each sound is the same.
+# Otherwise, we would need to add some extra zeros to arrays to make them equal in length.
 sound_1a = filters.fade_in(filters.exponential_decay(sine_wave_1, t, 10), 300)
-sound_1b = effects.delay(sound_1a, 0.2, 1, 2, 0.3)
-sound_1 = effects.reverb(sound_1b, 2, 2)
+sound_1b = effects.delay(sound_1a, 0.2, 1, 1, 0.2)
+sound_1c = effects.delay(sound_1b, 0.5, 1, 1, 0.1)
+sound_1 = effects.reverb(sound_1c, 2, 2)
 
 sound_2a = filters.fade_in(filters.exponential_decay(sine_wave_2, t, 10), 500)
 sound_2b = effects.delay(sound_2a, 0.1, 1, 2, 0.2)
 sound_2 = effects.reverb(sound_2b, 1, 2)
 
 sound_3a = filters.fade_in(filters.exponential_decay(sine_wave_3, t, 10), 900)
-sound_3b = effects.delay(sound_3a, 0.2, 1, 1, 0.3)
-sound_3c = effects.delay(sound_3b, 0.5, 1, 1, 0.1)
+sound_3b = effects.delay(sound_3a, 0.2, 1, 1, 0.5)
+sound_3c = effects.delay(sound_3b, 0.3, 1, 1, 0.4)
 sound_3 = effects.reverb(sound_3c, 2, 2)
 
 # By simple multiplication we can weight amplitudes ('volumes') of the waves.
-sound_L = sound_1 + 0.2 * sound_2 + 0.05 * sound_3
-sound_R = sound_1 + 0.1 * sound_2 + 0.1 * sound_3
+sound_L = 1.8 * sound_1 + 1.2 * sound_2 + 2 * sound_3
+sound_R = 1.7 * sound_1 + 1.3 * sound_2 + 1.9 * sound_3
 
 sound_LR = np.column_stack((sound_L, sound_R))
 
