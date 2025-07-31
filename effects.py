@@ -5,18 +5,35 @@ rng = np.random.default_rng()
 sample_rate = 44100
 
 
-def reverb(wave, decay_time=1.0, saturation=5.0, tail=1.0):
-    tail += 1
-    # '* 2 - 1' shifts the range from [0.0, 0.1] into [-1.0, 1.0]
+def reverb(wave, decay_time=1.0, tail=1.0):
     # reverb needs space at the end for the proper effect
-    random_impulse_response = (
-        rng.standard_normal(int(sample_rate * tail)) * 2 - 1
-    ).astype(np.float32)
-    print(random_impulse_response)
+    tail += 1
+    random_impulse_response = (rng.standard_normal(int(len(wave) * tail))).astype(
+        np.float32
+    )
+
     # exponential decay
     random_impulse_response *= np.exp(
-        -decay_time * np.arange(len(random_impulse_response)) * saturation / 100000
+        -decay_time * np.arange(len(random_impulse_response)) / 120000
     )
+
+    reverbed_signal = convolve(wave, random_impulse_response, mode="full")
+
+    return reverbed_signal
+
+
+def reverb_laplace(wave, decay_time=1.0, tail=1.0):
+    # reverb needs space at the end for the proper effect
+    tail += 1
+    # Rayleigh distribution is above zero. We need to lowr it
+    random_impulse_response = (rng.laplace(0, 1, int(len(wave) * tail)) - 1).astype(
+        np.float32
+    )
+    # exponential decay
+    random_impulse_response *= np.exp(
+        -decay_time * np.arange(len(random_impulse_response)) / 120000
+    )
+
     reverbed_signal = convolve(wave, random_impulse_response, mode="full")
 
     return reverbed_signal
