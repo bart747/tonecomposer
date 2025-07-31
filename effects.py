@@ -6,7 +6,7 @@ sample_rate = 44100
 
 
 def reverb(wave, decay_time=1, tail=2):
-    # '* 2 - 1' shiftes the rangefrom '0.0 to 0.1' into '-1.0 to 1.0'
+    # '* 2 - 1' shifts the range from '0.0 to 0.1' into '-1.0 to 1.0'
     # reverb needs space on the end for the proper effect
     random_impulse_response = (
         rng.standard_normal(int(sample_rate * tail)) * 2 - 1
