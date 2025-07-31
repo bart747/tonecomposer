@@ -22,7 +22,7 @@ def reverb(wave, decay_time=1.0, saturation=5.0, tail=1.0):
     return reverbed_signal
 
 
-def delay(wave, delay_time=0.5, wet_gain=1, tail_length=1, mix=0.2):
+def delay(wave, delay_time=0.5, wet_gain=1.0, tail_length=1.0, mix=0.2):
     # Convert delay time in seconds to number of samples.
     delay_samples = int(delay_time * sample_rate)
 

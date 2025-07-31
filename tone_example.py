@@ -24,17 +24,17 @@ sine_wave_3 = make_sine("A4", amplitude, t)
 # Notice that sum of tails (from effects) for each sound is the same.
 # Otherwise, we would need to add some extra zeros to arrays to make them equal in length.
 sound_1a = filters.fade_in(filters.exponential_decay(sine_wave_1, t, 10), 300)
-sound_1b = effects.delay(sound_1a, 0.2, 1, 1, 0.2)
-sound_1c = effects.delay(sound_1b, 0.5, 1, 1, 0.1)
+sound_1b = effects.delay(sound_1a, 0.2, 1, 0, 0.2)
+sound_1c = effects.delay(sound_1b, 0.5, 1, 0, 0.1)
 sound_1 = effects.reverb(sound_1c, 2, 5, 0.5)
 
 sound_2a = filters.fade_in(filters.exponential_decay(sine_wave_2, t, 10), 500)
-sound_2b = effects.delay(sound_2a, 0.1, 1, 2, 0.2)
+sound_2b = effects.delay(sound_2a, 0.1, 1, 0, 0.2)
 sound_2 = effects.reverb(sound_2b, 1, 5, 0.5)
 
 sound_3a = filters.fade_in(filters.exponential_decay(sine_wave_3, t, 10), 900)
-sound_3b = effects.delay(sound_3a, 0.2, 1, 1, 0.5)
-sound_3c = effects.delay(sound_3b, 0.3, 1, 1, 0.4)
+sound_3b = effects.delay(sound_3a, 0.2, 1, 0, 0.5)
+sound_3c = effects.delay(sound_3b, 0.3, 1, 0, 0.4)
 sound_3 = effects.reverb(sound_3c, 2, 5, 0.5)
 
 # By simple multiplication we can weight amplitudes ('volumes') of the waves.
