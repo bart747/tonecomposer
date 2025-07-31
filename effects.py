@@ -36,6 +36,7 @@ def reverb_laplace(wave, decay_time=1.0, tail=1.0):
 
     reverbed_signal = convolve(wave, random_impulse_response, mode="full")
 
+    print(reverbed_signal[1000:1020])
     return reverbed_signal
 
 
