@@ -16,8 +16,8 @@ amplitude = 0.5
 t = np.linspace(0, duration, int(sample_rate * duration))
 
 # The exemplary sound will be combination of 3 different waves.
-sine_wave_1 = make_sine("A3", amplitude, t)
-sine_wave_2 = make_sine("E4", amplitude, t)
+sine_wave_1 = make_sine("A1", amplitude, t)
+sine_wave_2 = make_sine("E3", amplitude, t)
 sine_wave_3 = make_sine("A4", amplitude, t)
 
 # Let's add some effects and filters.
